@@ -13,6 +13,7 @@ const RegimenSchema = new Schema({
     required: 'plan is required',
     trim: true,
   },
+  tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
 });
 
 const Regimen = mongoose.model('Regimen', RegimenSchema);

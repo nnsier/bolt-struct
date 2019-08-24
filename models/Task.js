@@ -17,6 +17,7 @@ const TaskSchema = new Schema({
     type: Number,
     required: true,
   },
+  regimenForTask: [{ type: Schema.Types.ObjectId, ref: 'Regimen' }],
 });
 
 const Task = mongoose.model('Task', TaskSchema);
