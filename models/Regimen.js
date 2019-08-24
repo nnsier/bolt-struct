@@ -13,6 +13,11 @@ const RegimenSchema = new Schema({
     required: 'plan is required',
     trim: true,
   },
+  length: {
+    type: Number,
+    trim: true,
+    default: 10,
+  },
   tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
 });
 

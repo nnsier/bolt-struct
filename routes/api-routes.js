@@ -3,7 +3,6 @@ const Task = require('../models/Task');
 const Regimen = require('../models/Regimen');
 
 module.exports = function (app) {
-
   app.get('/api/user', (req, res) => {
     User.find({})
       .then((user) => {
@@ -15,6 +14,16 @@ module.exports = function (app) {
     User.create(req.body)
       .then((user) => {
         res.json(user);
+      })
+      .catch((err) => {
+        res.json({ err });
+      });
+  });
+
+  app.post('/api/regimen', (req, res) => {
+    Regimen.create(req.body)
+      .then((regimen) => {
+        res.json(regimen);
       })
       .catch((err) => {
         res.json({ err });
