@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const RegimenSchema = new Schema({
+  user: {
+    type: String,
+    required: 'User is required',
+    trim: true,
+  },
   intensity: {
     type: String,
     required: 'intensity is required',

@@ -23,6 +23,20 @@ module.exports = function (app) {
   app.post('/api/regimen', (req, res) => {
     Regimen.create(req.body)
       .then((regimen) => {
+        const task1 = new Task({
+          title: 'Jog',
+          length: 4,
+        });
+        console.log(task1);
+        console.log(regimen);
+        task1.save((err, task) => {
+          console.log(`grab this task: ${task}`);
+          console.log({ err });
+          regimen.tasks.push(task);
+          regimen.save((error) => {
+            console.log({ error });
+          });
+        });
         res.json(regimen);
       })
       .catch((err) => {

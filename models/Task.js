@@ -15,7 +15,7 @@ const TaskSchema = new Schema({
   },
   length: {
     type: Number,
-    required: true,
+    default: 3,
   },
   regimenForTask: [{ type: Schema.Types.ObjectId, ref: 'Regimen' }],
 });
