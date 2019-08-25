@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const TaskSchema = require('./Task');
+
 
 const { Schema } = mongoose;
 
@@ -23,7 +25,7 @@ const RegimenSchema = new Schema({
     trim: true,
     default: 10,
   },
-  tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
+  tasks: [TaskSchema],
 });
 
 const Regimen = mongoose.model('Regimen', RegimenSchema);

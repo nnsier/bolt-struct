@@ -21,27 +21,27 @@ module.exports = function (app) {
   });
 
   app.post('/api/regimen', (req, res) => {
-    Regimen.create(req.body)
-      .then((regimen) => {
-        const task1 = new Task({
-          title: 'Jog',
-          length: 4,
-        });
-        console.log(task1);
-        console.log(regimen);
-        task1.save((err, task) => {
-          console.log(`grab this task: ${task}`);
-          console.log({ err });
-          regimen.tasks.push(task);
-          regimen.save((error) => {
-            console.log({ error });
-          });
-        });
-        res.json(regimen);
-      })
-      .catch((err) => {
-        res.json({ err });
-      });
+    const {
+      user,
+      intensity,
+      plan,
+      length,
+    } = req.body;
+    const regimen = new Regimen({
+      user,
+      intensity,
+      plan,
+      length,
+      tasks: [{ title: 'title' }],
+    });
+    regimen.save((err) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      res.send(regimen);
+      console.log('Success');
+    });
   });
 
   app.post('/api/task', (req, res) => {
@@ -53,15 +53,19 @@ module.exports = function (app) {
         res.json({ err });
       });
   });
-  app.get('/api/todos', (req, res) => {
-    Regimen.find({})
-      .populate('regimenForTask', 'Task')
-      .then((regimen) => {
-        res.json(regimen);
-      })
-      .catch((err) => {
-        res.json({ err });
+  app.get('/api/tasks', (req, res) => {
+    Task.find({})
+      .then((tasks) => {
+        res.json(tasks);
       });
+    // Regimen.find({})
+    //   .populate('regimenForTask', 'Task')
+    //   .then((regimen) => {
+    //     res.json(regimen);
+    //   })
+    //   .catch((err) => {
+    //     res.json({ err });
+    //   });
   });
 };
 

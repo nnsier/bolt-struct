@@ -20,6 +20,6 @@ const TaskSchema = new Schema({
   regimenForTask: [{ type: Schema.Types.ObjectId, ref: 'Regimen' }],
 });
 
-const Task = mongoose.model('Task', TaskSchema);
+// const Task = mongoose.model('Task', TaskSchema);
 
-module.exports = Task;
+module.exports = TaskSchema;
