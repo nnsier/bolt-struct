@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Regimen, RegimenSchema } = require('./Regimen');
+const { RegimenSchema } = require('./Regimen');
 
 const { Schema } = mongoose;
 
