@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Regimen, RegimenSchema } = require('./Regimen');
 
 const { Schema } = mongoose;
 
@@ -18,7 +19,7 @@ const UserSchema = new Schema({
     trim: true,
     required: 'email is required',
   },
-  regimens: [{ type: Schema.Types.ObjectId, ref: 'Regimen' }],
+  regimens: [RegimenSchema],
 });
 
 const User = mongoose.model('User', UserSchema);
