@@ -72,13 +72,11 @@ module.exports = function (app) {
       });
       const foundUser = await User.find({ name: user });
       await console.log(foundUser);
-      
       await console.log(foundUser[0].name);
       await foundUser[0].regimens.push(regimen);
       await foundUser[0].save(err => console.log(err));
       await console.log(foundUser[0]);
       await res.send(foundUser[0]);
-      
     };
     asynchUserFind(user, regimen);
   });
