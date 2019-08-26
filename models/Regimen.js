@@ -4,6 +4,7 @@ const TaskSchema = require('./Task');
 
 const { Schema } = mongoose;
 
+
 const RegimenSchema = new Schema({
   user: {
     type: String,
@@ -30,4 +31,7 @@ const RegimenSchema = new Schema({
 
 const Regimen = mongoose.model('Regimen', RegimenSchema);
 
-module.exports = Regimen;
+module.exports = {
+  Regimen,
+  RegimenSchema,
+};

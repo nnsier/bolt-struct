@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 const User = require('../models/User');
 const Task = require('../models/Task');
-const Regimen = require('../models/Regimen');
+const { Regimen } = require('../models/Regimen');
 
 module.exports = function (app) {
   app.get('/api/user', (req, res) => {
@@ -67,16 +67,18 @@ module.exports = function (app) {
           console.log(err);
           return;
         }
-        res.send(regimen);
+        // res.send(regimen);
         console.log('Success');
       });
       const foundUser = await User.find({ name: user });
       await console.log(foundUser);
-      await console.log(foundUser.regimens);
-      await foundUser.regimens.push(regimen);
-      await foundUser.save(err => console.log(err));
-      await console.log(foundUser);
-      await res.send(foundUser);
+      
+      await console.log(foundUser[0].name);
+      await foundUser[0].regimens.push(regimen);
+      await foundUser[0].save(err => console.log(err));
+      await console.log(foundUser[0]);
+      await res.send(foundUser[0]);
+      
     };
     asynchUserFind(user, regimen);
   });
