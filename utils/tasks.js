@@ -1,7 +1,7 @@
 // in this function we will have to generate tasks
-
-const sayHi = () => {
+// it must use regimen and the type's there. Switch case?
+const generateTasks = (regimen) => {
   console.log('hi');
 };
 
-module.exports = sayHi;
+module.exports = generateTasks;

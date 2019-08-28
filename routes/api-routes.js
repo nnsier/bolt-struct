@@ -21,6 +21,14 @@ module.exports = function (app) {
       });
   });
 
+  app.delete('/api/user/:id', (req, res) => {
+    User.deleteOne({ _id: req.params.id }, (err) => {
+      console.log({ err });
+      res.send({ err });
+    });
+    console.log('Successs');
+  });
+
   app.post('/api/regimen', (req, res) => {
     const {
       user,
@@ -70,6 +78,7 @@ module.exports = function (app) {
         // res.send(regimen);
         console.log('Success');
       });
+      await regimen.generateTasks();
       const foundUser = await User.find({ name: user });
       await console.log(foundUser);
       await console.log(foundUser[0].name);
@@ -85,6 +94,9 @@ module.exports = function (app) {
     const userId = req.params.id;
     console.log(userId);
     User.findById(userId).then((user) => {
+      console.log(user);
+      const length = user.regimens.length() - 1;
+      user.regimens[length].generateTasks();
       res.json(user);
     })
       .catch((err) => {

@@ -24,12 +24,15 @@ const RegimenSchema = new Schema({
   length: {
     type: Number,
     trim: true,
-    default: 10,
   },
   tasks: [TaskSchema],
 });
 
 const Regimen = mongoose.model('Regimen', RegimenSchema);
+
+Regimen.prototype.generateTasks = function () {
+  console.log('sup.');
+};
 
 module.exports = {
   Regimen,
