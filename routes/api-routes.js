@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 const User = require('../models/User');
-const Task = require('../models/Task');
-const { Regimen } = require('../models/Regimen');
+const { Task } = require('../models/Task');
 
 module.exports = function (app) {
   app.get('/api/user', (req, res) => {
@@ -21,12 +20,17 @@ module.exports = function (app) {
       });
   });
 
-  app.delete('/api/user/:id', (req, res) => {
-    User.deleteOne({ _id: req.params.id }, (err) => {
-      console.log({ err });
-      res.send({ err });
+  app.delete('/api/user/', (req, res) => {
+    const { username } = req.body;
+    User.deleteOne({ name: username }, (err) => {
+      if (err) {
+        console.log({ err });
+        res.send({ err });
+      } else {
+        res.send('success');
+      }
+
     });
-    console.log('Successs');
   });
 
   app.post('/api/regimen', (req, res) => {
@@ -52,6 +56,36 @@ module.exports = function (app) {
       }
       res.send(regimen);
       console.log('Success');
+    });
+  });
+
+  app.post('/api/user/task', (req, res) => {
+    const {
+      username,
+      title,
+      length,
+      pace,
+    } = req.body;
+
+    const task = new Task({
+      title,
+      length,
+      pace,
+    });
+    const addTask = async function (user, task) {
+      const foundUser = await User.find({ name: user });
+      await foundUser[0].tasks.push(task);
+      await res.send('success');
+      console.log(`added ${task} to user: ${user}`);
+      await console.log(foundUser);
+      await console.log(foundUser[0].tasks);
+    };
+    addTask(username, task).catch((err) => {
+      if (err) {
+        res.send({ err });
+      } else {
+        res.send('success');
+      }
     });
   });
 

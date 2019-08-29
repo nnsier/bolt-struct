@@ -22,6 +22,8 @@ const UserSchema = new Schema({
   tasks: [TaskSchema],
 });
 
+// should I make a method here? An insert task function?
+
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
