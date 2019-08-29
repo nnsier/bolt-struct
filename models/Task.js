@@ -8,18 +8,26 @@ const TaskSchema = new Schema({
     trim: true,
     required: 'title is required',
   },
-  completed: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
   length: {
     type: Number,
-    default: 3,
+    required: true,
   },
-  regimenForTask: [{ type: Schema.Types.ObjectId, ref: 'Regimen' }],
+  pace: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  hilly: {
+    type: Boolean,
+  },
+  temp: {
+    type: Number,
+  },
+  weather: {
+    type: String,
+  },
 });
 
-// const Task = mongoose.model('Task', TaskSchema);
+const Task = mongoose.model('Task', TaskSchema);
 
-module.exports = TaskSchema;
+module.exports = { TaskSchema, Task };

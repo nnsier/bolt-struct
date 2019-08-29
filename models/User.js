@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { RegimenSchema } = require('./Regimen');
+const { TaskSchema } = require('./Task');
 
 const { Schema } = mongoose;
 
@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     trim: true,
     required: 'email is required',
   },
-  regimens: [RegimenSchema],
+  tasks: [TaskSchema],
 });
 
 const User = mongoose.model('User', UserSchema);

@@ -55,40 +55,46 @@ module.exports = function (app) {
     });
   });
 
-  app.post('/api/regimen2', (req, res) => {
-    const {
-      user,
-      intensity,
-      plan,
-      length,
-    } = req.body;
-    const regimen = new Regimen({
-      user,
-      intensity,
-      plan,
-      length,
-      tasks: [{ title: 'title' }],
-    });
-    const asynchUserFind = async function (user, regimen) {
-      await regimen.save((err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        // res.send(regimen);
-        console.log('Success');
-      });
-      await regimen.generateTasks();
-      const foundUser = await User.find({ name: user });
-      await console.log(foundUser);
-      await console.log(foundUser[0].name);
-      await foundUser[0].regimens.push(regimen);
-      await foundUser[0].save(err => console.log(err));
-      await console.log(foundUser[0]);
-      await res.send(foundUser[0]);
-    };
-    asynchUserFind(user, regimen);
-  });
+
+  // app.post('/api/regimen2', (req, res) => {
+  //   const {
+  //     user,
+  //     intensity,
+  //     plan,
+  //     length,
+  //   } = req.body;
+  //   const regimen = new Regimen({
+  //     user,
+  //     intensity,
+  //     plan,
+  //     length,
+  //     tasks: [{ title: 'title' }],
+  //   });
+  //   const asynchUserFind = async function (user, regimen) {
+  //     await regimen.save((err) => {
+  //       if (err) {
+  //         console.log(err);
+  //         return;
+  //       }
+  //       // res.send(regimen);
+  //       console.log('Success');
+  //     });
+
+  // this is all important stuff, but mostly this will
+  // be done on the front end. We won't -generate tasks- on the backend. 
+  // That's frontend stuff.
+
+  //     await regimen.generateTasks();
+  //     const foundUser = await User.find({ name: user });
+  //     await console.log(foundUser);
+  //     await console.log(foundUser[0].name);
+  //     await foundUser[0].regimens.push(regimen);
+  //     await foundUser[0].save(err => console.log(err));
+  //     await console.log(foundUser[0]);
+  //     await res.send(foundUser[0]);
+  //   };
+  //   asynchUserFind(user, regimen);
+  // });
 
   app.get('/api/:id', (req, res) => {
     const userId = req.params.id;
