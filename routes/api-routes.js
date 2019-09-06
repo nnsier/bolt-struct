@@ -1,6 +1,8 @@
 /* eslint-disable no-shadow */
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { Task } = require('../models/Task');
+
 
 module.exports = function (app) {
   app.get('/api/user', (req, res) => {
@@ -10,19 +12,37 @@ module.exports = function (app) {
       });
   });
 
-  app.post('/api/user', (req, res) => {
-    User.create(req.body)
-      .then((user) => {
-        res.json(user);
-      })
-      .catch((err) => {
-        res.json({ err });
-      });
+  app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).send(
+        'Request missing username or password',
+      );
+    }
+    try {
+      console.log(`Are we grabbing ${username}, ${password}`);
+      const user = await User.authenticate(username, password);
+      // user = await user.authorize();
+      return res.json(user);
+    } catch (err) {
+      console.log(err);
+      return res.send('Username or password is incorrect');
+    }
+  });
+
+  app.post('/api/register', async (req, res) => {
+    const hash = bcrypt.hashSync(req.body.password, 10);
+    try {
+      await User.create({ username: req.body.username, password: hash });
+      return res.json('successss');
+    } catch (err) {
+      return res.status(400).send(err);
+    }
   });
 
   app.delete('/api/user/', (req, res) => {
     const { username } = req.body;
-    User.deleteOne({ name: username }, (err) => {
+    User.deleteOne({ username }, (err) => {
       if (err) {
         console.log({ err });
         res.send({ err });
@@ -73,7 +93,7 @@ module.exports = function (app) {
       pace,
     });
     const addTask = async function (user, task) {
-      const foundUser = await User.find({ name: user });
+      const foundUser = await User.find({ username });
       await foundUser[0].tasks.push(task);
       await res.send('success');
       console.log(`added ${task} to user: ${user}`);
@@ -217,4 +237,3 @@ module.exports = function (app) {
 //       res.json({err})
 //     })
 // })
-
