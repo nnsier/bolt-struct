@@ -1,13 +1,16 @@
+/* eslint-disable object-shorthand */
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const { TaskSchema } = require('./Task');
 
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  name: {
+  username: {
     type: String,
     trim: true,
-    required: 'name is required',
+    unique: true,
+    required: 'username is required',
   },
   password: {
     type: String,
@@ -17,13 +20,35 @@ const UserSchema = new Schema({
   email: {
     type: String,
     trim: true,
-    required: 'email is required',
   },
   tasks: [TaskSchema],
 });
+const User = mongoose.model('User', UserSchema);
+
+// User.associate = function ({ AuthToken }) {
+//   User.hasMany(AuthToken);
+// };
+
+User.prototype.logout = async function (token) {
+  mongoose.models.AuthToken.destroy({ where: { token } });
+};
+
+User.prototype.authorize = async function () {
+  const user = this;
+  // this is where I'll have to make the jwt
+  return user.username;
+};
+
+User.authenticate = async function (username, password) {
+  const user = await User.findOne({ username });
+
+  if (bcrypt.compareSync(password, user.password)) {
+    return user.authorize();
+  }
+  throw new Error('invalid password');
+};
+
 
 // should I make a method here? An insert task function?
-
-const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
