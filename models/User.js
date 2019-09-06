@@ -36,7 +36,9 @@ User.prototype.logout = async function (token) {
 User.prototype.authorize = async function () {
   const user = this;
   // this is where I'll have to make the jwt
-  return user.username;
+  const { tasks, username } = user;
+  const clientUser = { username, tasks };
+  return clientUser;
 };
 
 User.authenticate = async function (username, password) {
