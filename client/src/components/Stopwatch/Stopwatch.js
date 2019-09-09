@@ -3,8 +3,20 @@ import React, { Component } from "react";
 class Stopwatch extends Component {
   state = {
     status: false,
-    runningTime: 0
+    runningTime: 0,
+    positions: []
   };
+
+  getLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const {timestamp} = position;
+      const {latitude, longitude} = position.coords;
+      const {positions} = this.state;
+      this.setState(({ positions: [...this.state.positions, { latitude, longitude, timestamp }]}));
+      
+      console.log(positions);
+    })
+  }
 
   startTimer = () => {
     const startTime = Date.now() - this.state.runningTime;
@@ -14,6 +26,7 @@ class Stopwatch extends Component {
     this.distanceCheck = setInterval(() => {
       const {runningTime} = this.state;
       console.log(runningTime);
+      this.getLocation();
     }, 10000)
   }
 

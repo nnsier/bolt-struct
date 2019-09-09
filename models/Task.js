@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const { PositionSchema } = require('./Position');
 
 const { Schema } = mongoose;
+
 
 const TaskSchema = new Schema({
   title: {
@@ -26,6 +28,7 @@ const TaskSchema = new Schema({
   weather: {
     type: String,
   },
+  positions: [PositionSchema],
 },
 { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
