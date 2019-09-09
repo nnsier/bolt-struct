@@ -1,16 +1,5 @@
 import React, { Component } from "react";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <h1>Stopwatch</h1>
-        <Stopwatch />
-      </div>
-    );
-  }
-}
-
 class Stopwatch extends Component {
   state = {
     status: false,
@@ -47,4 +36,4 @@ class Stopwatch extends Component {
     );
   }
 }
-export default App;
+export default Stopwatch;
