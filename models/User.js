@@ -22,7 +22,8 @@ const UserSchema = new Schema({
     trim: true,
   },
   tasks: [TaskSchema],
-});
+},
+{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 const User = mongoose.model('User', UserSchema);
 
 // User.associate = function ({ AuthToken }) {

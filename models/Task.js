@@ -26,7 +26,8 @@ const TaskSchema = new Schema({
   weather: {
     type: String,
   },
-});
+},
+{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
 const Task = mongoose.model('Task', TaskSchema);
 
