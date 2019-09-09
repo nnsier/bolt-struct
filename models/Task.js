@@ -8,15 +8,12 @@ const TaskSchema = new Schema({
   title: {
     type: String,
     trim: true,
-    required: 'title is required',
   },
   length: {
     type: Number,
-    required: true,
   },
   pace: {
     type: String,
-    required: true,
     trim: true,
   },
   hilly: {
