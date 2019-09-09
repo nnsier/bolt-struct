@@ -3,23 +3,47 @@ import React, { Component } from "react";
 class Stopwatch extends Component {
   state = {
     status: false,
-    runningTime: 0
+    runningTime: 0,
+    positions: []
   };
+
+  getLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const {timestamp} = position;
+      const {latitude, longitude} = position.coords;
+      const {positions} = this.state;
+      this.setState(({ positions: [...this.state.positions, { latitude, longitude, timestamp }]}));
+      
+      console.log(positions);
+    })
+  }
+
+  startTimer = () => {
+    const startTime = Date.now() - this.state.runningTime;
+    this.timer = setInterval(() => {
+      this.setState({ runningTime: Date.now() - startTime });
+    });
+    this.distanceCheck = setInterval(() => {
+      const {runningTime} = this.state;
+      console.log(runningTime);
+      this.getLocation();
+    }, 10000)
+  }
+
   handleClick = () => {
     this.setState(state => {
       if (state.status) {
         clearInterval(this.timer);
+        clearInterval(this.distanceCheck);
       } else {
-        const startTime = Date.now() - this.state.runningTime;
-        this.timer = setInterval(() => {
-          this.setState({ runningTime: Date.now() - startTime });
-        });
+        this.startTimer();
       }
       return { status: !state.status };
     });
   };
   handleReset = () => {
     clearInterval(this.timer); // new
+    clearInterval(this.distanceCheck);
     this.setState({ runningTime: 0, status: false });
   };
   handleSubmit = () => {
@@ -27,6 +51,7 @@ class Stopwatch extends Component {
   };
   componentWillUnmount() {
     clearInterval(this.timer);
+    clearInterval(this.distanceCheck);
   }
   render() {
     const { status, runningTime } = this.state;
