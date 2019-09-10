@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { Task } = require('../models/Task');
-const { Position } = require('../models/Position');
+// const { Position } = require('../models/Position');
 
 
 module.exports = function (app) {
@@ -43,10 +43,11 @@ module.exports = function (app) {
 
   app.post('/api/run', async (req, res) => {
     const [...positions] = req.body.positions;
-    const { username } = req.body;
+    const { username, runningTime } = req.body;
     try {
       const task = new Task({
         positions,
+        runningTime,
       });
       console.log(`task is here ${task}`);
       const foundUser = await User.find({ username });
@@ -55,8 +56,7 @@ module.exports = function (app) {
         if (err) {
           console.log(err);
         }
-      })
-      // const stuff = await foundUser[0].populate({ path: 'tasks', populate: { path: 'positions' } });
+      });
       return res.status(200).json(foundUser[0]);
     } catch (err) {
       return res.status(400).send(err);
