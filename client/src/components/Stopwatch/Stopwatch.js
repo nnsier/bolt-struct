@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 class Stopwatch extends Component {
   state = {
+    username:'',
     status: false,
     runningTime: 0,
     positions: []
@@ -47,7 +48,17 @@ class Stopwatch extends Component {
     this.setState({ runningTime: 0, status: false });
   };
   handleSubmit = () => {
+    const {username, positions, runningTime} = this.state;
     console.log(this.state.runningTime);
+    fetch('/api/run', {
+      method: 'POST',
+      body: JSON.stringify({username, positions, runningTime}),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(response => console.log('Success:', JSON.stringify(response)))
+      .catch(error => console.log('Error:', error));
   };
   componentWillUnmount() {
     clearInterval(this.timer);

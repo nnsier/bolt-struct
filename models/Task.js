@@ -9,8 +9,9 @@ const TaskSchema = new Schema({
     type: String,
     trim: true,
   },
-  length: {
+  runningTime: {
     type: Number,
+    required: true,
   },
   pace: {
     type: String,
