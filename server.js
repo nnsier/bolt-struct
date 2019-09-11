@@ -2,6 +2,8 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+
+require('dotenv').config();
 // const customAuthMiddleware = require('./middleware/middleware');
 
 const PORT = process.env.PORT || 3001;
