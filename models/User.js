@@ -45,8 +45,8 @@ User.prototype.authorize = async function () {
 User.authenticate = async function (username, password) {
   const user = await User.findOne({ username });
 
-  if (bcrypt.compareSync(password, user.password)) {
-    return user.authorize();
+  if (bcrypt.compare(password, user.password)) {
+    return user;
   }
   throw new Error('invalid password');
 };

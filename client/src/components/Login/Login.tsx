@@ -13,7 +13,7 @@ export default function Form() {
     }).then(response => response.json())
       .then(response => console.log('Success:', JSON.stringify(response)))
       .catch(error => console.log('Error:', error));
-    console.log((JSON.stringify(data)));
+    console.log(`why though ${JSON.stringify(data)}`);
   };
   if(Object.keys(errors).length > 0){
     console.log(errors);
@@ -37,7 +37,7 @@ export default function Form() {
           ref={register({ required: true, minLength: 6, maxLength: 20 })}
         />
       </div>
-      <input type="submit" />
+      <button type="submit">Login</button>
     </form>
   )
 }

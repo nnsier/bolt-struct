@@ -1,7 +1,18 @@
 /* eslint-disable no-shadow */
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const User = require('../models/User');
 const { Task } = require('../models/Task');
+
+const privateKey = process.env.PRIVATE_KEY;
+const publicKey = process.env.PUBLIC_KEY;
+
+
+const signOptions = {
+  expiresIn: '12h',
+  algorithm: 'RS256',
+};
 // const { Position } = require('../models/Position');
 
 
@@ -23,6 +34,10 @@ module.exports = function (app) {
     try {
       console.log(`Are we grabbing ${username}, ${password}`);
       const user = await User.authenticate(username, password);
+    
+      const token = jwt.sign({ data: username }, privateKey, { expiresIn: '12h' });
+      
+      console.log(`Token - ${token}`);
       // user = await user.authorize();
       return res.json(user);
     } catch (err) {
@@ -32,7 +47,8 @@ module.exports = function (app) {
   });
 
   app.post('/api/register', async (req, res) => {
-    const hash = bcrypt.hashSync(req.body.password, 10);
+    const hash = await bcrypt.hash(req.body.password, 10);
+    console.log(hash);
     try {
       await User.create({ username: req.body.username, password: hash });
       return res.json('successss');

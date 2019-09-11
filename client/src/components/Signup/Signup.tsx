@@ -48,7 +48,7 @@ export default function Form() {
           })}
         />
       </div>
-      <input type="submit" />
+      <button type="submit">Signup</button>
     </form>
   )
 }
